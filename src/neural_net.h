@@ -52,9 +52,10 @@ class NeuralNetwork {
   std::vector<Layer*> m_layers;
   std::vector<Synapse*> m_synapses;
 
- private:
   void connectLayers(Layer* l1, Layer* l2);
   float getInitialSynapseWeigth();
+  void calculateNeuronValues();
+  Synapse* findSynapse(Neuron* left, Neuron* right);
 };
 
 #endif

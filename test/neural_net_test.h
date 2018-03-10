@@ -2,6 +2,7 @@
 #define NEURALNETTEST_H
 
 #include <cassert>
+#include <cmath>
 #include <iostream>
 #include "../src/neural_net.h"
 
@@ -16,6 +17,10 @@ class NeuralNetworkWrapper : public NeuralNetwork {
         return true;
     }
     return false;
+  }
+
+  Synapse* findSynapsePub(Neuron* left, Neuron* right) {
+    return findSynapse(left, right);
   }
 
   const std::vector<Layer*>& getLayers() { return m_layers; }
@@ -74,6 +79,48 @@ class NeuralNetTest {
     assert(sum > 0);
   }
 
+  /* Test */
+  static void shouldCalculateNeuronValues() {
+    NeuralNetwork::Parameters p;
+    p.input = {0.1, 0.2};
+    p.expectedOutput = {2.1, 2.2};
+    p.hiddenLayerCount = 1;
+    p.hiddenLayerNeuronsCount = 2;
+    NeuralNetworkWrapper nn(p);
+
+    Layer* l1 = nn.getLayers()[0];
+    Layer* l2 = nn.getLayers()[1];
+    Layer* l3 = nn.getLayers()[2];
+
+    // assert input layer values
+    assertFloatEq(l1->neurons[0]->data, 0.1);
+    assertFloatEq(l1->neurons[1]->data, 0.2);
+
+    // assert hidden layer values
+    float n_1 = l1->neurons[0]->data;
+    float n_2 = l1->neurons[1]->data;
+    //// first neuron of hidden layer
+    float w_11 = nn.findSynapsePub(l1->neurons[0], l2->neurons[0])->weight;
+    float w_21 = nn.findSynapsePub(l1->neurons[1], l2->neurons[0])->weight;
+    assertFloatEq(l2->neurons[0]->data, n_1 * w_11 + n_2 * w_21);
+    //// second neuron of hidden layer
+    float w_12 = nn.findSynapsePub(l1->neurons[0], l2->neurons[1])->weight;
+    float w_22 = nn.findSynapsePub(l1->neurons[1], l2->neurons[1])->weight;
+    assertFloatEq(l2->neurons[1]->data, n_1 * w_12 + n_2 * w_22);
+
+    // assert output layer values
+    n_1 = l2->neurons[0]->data;
+    n_2 = l2->neurons[1]->data;
+    //// first neuron of hidden layer
+    w_11 = nn.findSynapsePub(l2->neurons[0], l3->neurons[0])->weight;
+    w_21 = nn.findSynapsePub(l2->neurons[1], l3->neurons[0])->weight;
+    assertFloatEq(l3->neurons[0]->data, n_1 * w_11 + n_2 * w_21);
+    //// second neuron of hidden layer
+    w_12 = nn.findSynapsePub(l2->neurons[0], l3->neurons[1])->weight;
+    w_22 = nn.findSynapsePub(l2->neurons[1], l3->neurons[1])->weight;
+    assertFloatEq(l3->neurons[1]->data, n_1 * w_12 + n_2 * w_22);
+  }
+
  private:
   static NeuralNetwork::Parameters createNuralNetworkParameters() {
     NeuralNetwork::Parameters p;
@@ -83,6 +130,8 @@ class NeuralNetTest {
     p.hiddenLayerNeuronsCount = 2;
     return p;
   }
+  static bool areSame(float a, float b) { return fabs(a - b) < 0.0001; }
+  static void assertFloatEq(float a, float b) { assert(areSame(a, b)); }
 };
 
 #endif

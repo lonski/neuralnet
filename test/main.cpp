@@ -11,4 +11,6 @@ int main() {
   NeuralNetTest::shouldInitializeSynapseWeight();
   std::cout << "Running NeuralNetTest::shouldCreateRequestedAmountOfLayers\n";
   NeuralNetTest::shouldCreateRequestedAmountOfLayers();
+  std::cout << "Running NeuralNetTest::shouldCalculateNeuronValues\n";
+  NeuralNetTest::shouldCalculateNeuronValues();
 }
