@@ -1,7 +1,6 @@
 #undef NDEBUG
-#include <iostream>
-#include <cassert>
 #include "neural_net_test.h"
+#include <iostream>
 
 int main() {
   std::cout << "Running NeuralNetTest::shouldCreateSynapses\n";
