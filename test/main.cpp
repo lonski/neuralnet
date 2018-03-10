@@ -1,6 +1,6 @@
 #undef NDEBUG
-#include "neural_net_test.h"
 #include <iostream>
+#include "neural_net_test.h"
 
 int main() {
   std::cout << "Running NeuralNetTest::shouldCreateSynapses\n";
@@ -9,4 +9,6 @@ int main() {
   NeuralNetTest::shouldConnectLayers();
   std::cout << "Running NeuralNetTest::shouldInitializeSynapseWeight\n";
   NeuralNetTest::shouldInitializeSynapseWeight();
+  std::cout << "Running NeuralNetTest::shouldCreateRequestedAmountOfLayers\n";
+  NeuralNetTest::shouldCreateRequestedAmountOfLayers();
 }

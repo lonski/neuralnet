@@ -1,11 +1,12 @@
 #include "neural_net.h"
 #include <iostream>
-#include <random>
 
 int main() {
-  NeuralNetwork *nn = new NeuralNetwork({
-      {0.1, 0.2},      // input layer
-      {1.1, 1.2, 1.3}, // hidden layer
-      {2.2}            // output layer
-  });
+  NeuralNetwork::Parameters params;
+  params.input = {0.1, 0.2};
+  params.expectedOutput = {0.5, 0.9};
+  params.hiddenLayerCount = 1;
+  params.hiddenLayerNeuronsCount = 3;
+
+  NeuralNetwork *nn = new NeuralNetwork(params);
 }
