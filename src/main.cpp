@@ -1,4 +1,5 @@
 #include <iostream>
+#include "activation_functions.h"
 #include "neural_net.h"
 
 int main() {
@@ -7,7 +8,7 @@ int main() {
   params.expectedOutput = {0.5, 0.9};
   params.hiddenLayerCount = 1;
   params.hiddenLayerNeuronsCount = 3;
-  params.activationFn = [](float x) -> float { return x; };
+  params.activationFn = ActivationFunctions::LOGISTIC;
 
   NeuralNetwork* nn = new NeuralNetwork(params);
 }

@@ -2,9 +2,10 @@
 #define NEURALNETTEST_H
 
 #include <cassert>
-#include <cmath>
 #include <iostream>
+#include "../src/activation_functions.h"
 #include "../src/neural_net.h"
+#include "util.h"
 
 class NeuralNetworkWrapper : public NeuralNetwork {
  public:
@@ -84,7 +85,7 @@ class NeuralNetTest {
     NeuralNetwork::Parameters p = createNuralNetworkParameters();
     p.input = {0.1, 0.2};
     p.expectedOutput = {2.1, 2.2};
-    p.activationFn = [](float x) -> float { return x * 2; };
+    p.activationFn = ActivationFunctions::MUL_BY_TWO;
     NeuralNetworkWrapper nn(p);
 
     Layer* l1 = nn.getLayers()[0];
@@ -130,8 +131,6 @@ class NeuralNetTest {
     p.activationFn = [](float x) { return x; };
     return p;
   }
-  static bool areSame(float a, float b) { return fabs(a - b) < 0.0001; }
-  static void assertFloatEq(float a, float b) { assert(areSame(a, b)); }
 };
 
 #endif

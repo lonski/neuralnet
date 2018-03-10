@@ -1,6 +1,8 @@
 set(SOURCE_FILES
-    main.cpp
+    activation_functions.h
+    neural_net.h
     neural_net.cpp
+    main.cpp
 )
 
 add_library(neuralnet_core STATIC ${SOURCE_FILES})

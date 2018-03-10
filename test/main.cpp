@@ -1,16 +1,18 @@
 #undef NDEBUG
 #include <iostream>
+#include "activation_functions_test.h"
 #include "neural_net_test.h"
 
+#define RUN_TEST(FUN)                           \
+  std::cout << "Running " << #FUN << std::endl; \
+  FUN;
+
 int main() {
-  std::cout << "Running NeuralNetTest::shouldCreateSynapses\n";
-  NeuralNetTest::shouldCreateSynapses();
-  std::cout << "Running NeuralNetTest::shouldConnectLayers\n";
-  NeuralNetTest::shouldConnectLayers();
-  std::cout << "Running NeuralNetTest::shouldInitializeSynapseWeight\n";
-  NeuralNetTest::shouldInitializeSynapseWeight();
-  std::cout << "Running NeuralNetTest::shouldCreateRequestedAmountOfLayers\n";
-  NeuralNetTest::shouldCreateRequestedAmountOfLayers();
-  std::cout << "Running NeuralNetTest::shouldCalculateNeuronValues\n";
-  NeuralNetTest::shouldCalculateNeuronValues();
+  RUN_TEST(NeuralNetTest::shouldCreateSynapses());
+  RUN_TEST(NeuralNetTest::shouldConnectLayers());
+  RUN_TEST(NeuralNetTest::shouldInitializeSynapseWeight());
+  RUN_TEST(NeuralNetTest::shouldCreateRequestedAmountOfLayers());
+  RUN_TEST(NeuralNetTest::shouldCalculateNeuronValues());
+  RUN_TEST(ActivationFunctionsTest::logisticFunctionTest());
+  RUN_TEST(ActivationFunctionsTest::mulByTwoFunctionTest());
 }
