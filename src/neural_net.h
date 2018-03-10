@@ -43,6 +43,7 @@ protected:
 
 private:
   void connectLayers(Layer *l1, Layer *l2);
+  float getInitialSynapseWeigth();
 };
 
 #endif

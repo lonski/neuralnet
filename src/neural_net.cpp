@@ -1,9 +1,11 @@
 #include "neural_net.h"
-#include <algorithm>
+#include <cstdlib>
+#include <ctime>
 
-NeuralNetwork::NeuralNetwork() {}
+NeuralNetwork::NeuralNetwork() : NeuralNetwork(std::vector<std::vector<float>>{}) {}
 
 NeuralNetwork::NeuralNetwork(std::vector<std::vector<float>> topology) {
+  srand(time(0));
   for (std::vector<float> layer_data : topology) {
     Layer *layer = new Layer();
     for (float neuron_data : layer_data) {
@@ -33,8 +35,12 @@ void NeuralNetwork::addLayer(Layer *layer) {
 void NeuralNetwork::connectLayers(Layer *l1, Layer *l2) {
   for (Neuron *left : l1->neurons) {
     for (Neuron *right : l2->neurons) {
-      Synapse *synapse = new Synapse(left, right, 0.0);
+      Synapse *synapse = new Synapse(left, right, getInitialSynapseWeigth());
       m_synapses.push_back(synapse);
     }
   }
+}
+
+float NeuralNetwork::getInitialSynapseWeigth() {
+  return ((double) rand() / (RAND_MAX));
 }

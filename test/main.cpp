@@ -7,4 +7,6 @@ int main() {
   NeuralNetTest::shouldCreateSynapses();
   std::cout << "Running NeuralNetTest::shouldConnectLayers\n";
   NeuralNetTest::shouldConnectLayers();
+  std::cout << "Running NeuralNetTest::shouldInitializeSynapseWeight\n";
+  NeuralNetTest::shouldInitializeSynapseWeight();
 }

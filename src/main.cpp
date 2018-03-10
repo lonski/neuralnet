@@ -1,5 +1,6 @@
 #include "neural_net.h"
 #include <iostream>
+#include <random>
 
 int main() {
   NeuralNetwork *nn = new NeuralNetwork({

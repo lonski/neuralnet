@@ -52,6 +52,18 @@ public:
     assert(nn.containsSynapse(l2->neurons[1], l3->neurons[1]));
     assert(nn.containsSynapse(l2->neurons[1], l3->neurons[2]));
   }
+
+  static void shouldInitializeSynapseWeight() {
+    NeuralNetworkWrapper nn({{0.1, 0.2, 0.3}, {1.1, 1.2}, {2.1, 2.2, 2.3}});
+
+    float sum = 0;
+    for(Synapse* s : nn.getSynapses()) {
+      sum += s->weight;
+      //std::cout << s->weight << " ";
+    }
+
+    assert(sum > 0);
+  }
 };
 
 #endif
