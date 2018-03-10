@@ -5,22 +5,22 @@
 #include <vector>
 
 struct Neuron {
-  Neuron(float data) : data(data) {}
-  float data;
+  Neuron(double data) : data(data) {}
+  double data;
 };
 
 struct Synapse {
-  Synapse(Neuron* left, Neuron* right, float weight)
+  Synapse(Neuron* left, Neuron* right, double weight)
       : left(left), right(right), weight(weight) {}
 
   Neuron* left;
   Neuron* right;
-  float weight;
+  double weight;
 };
 
 struct Layer {
-  Layer(std::vector<float> neuron_values) {
-    for (float neuron_data : neuron_values) {
+  Layer(std::vector<double> neuron_values) {
+    for (double neuron_data : neuron_values) {
       neurons.push_back(new Neuron(neuron_data));
     }
   }
@@ -37,11 +37,11 @@ struct Layer {
 class NeuralNetwork {
  public:
   struct Parameters {
-    std::vector<float> input;
-    std::vector<float> expectedOutput;
+    std::vector<double> input;
+    std::vector<double> expectedOutput;
     int hiddenLayerCount;
     int hiddenLayerNeuronsCount;
-    std::function<float(float)> activationFn;
+    std::function<double(double)> activationFn;
   };
 
   NeuralNetwork(Parameters Parameters);
@@ -51,14 +51,14 @@ class NeuralNetwork {
   void learn(int iterationCount);
 
  protected:
-  std::vector<float> m_expectedOutput;
+  std::vector<double> m_expectedOutput;
   std::vector<Layer*> m_layers;
   std::vector<Synapse*> m_synapses;
-  std::function<float(float)> m_activationFn;
-  float m_error;
+  std::function<double(double)> m_activationFn;
+  double m_error;
 
   void connectLayers(Layer* l1, Layer* l2);
-  float getInitialSynapseWeigth();
+  double getInitialSynapseWeigth();
   void calculateNeuronValues();
   Synapse* findSynapse(Neuron* left, Neuron* right);
   void calculateError();

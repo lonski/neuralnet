@@ -4,10 +4,10 @@
 #include <cassert>
 #include <cmath>
 
-static bool areSame(float a, float b) {
+static bool areSame(double a, double b) {
   return fabs(a - b) < 0.0001;
 }
-static void assertFloatEq(float a, float b) {
+static void assertDoubleEq(double a, double b) {
   assert(areSame(a, b));
 }
 

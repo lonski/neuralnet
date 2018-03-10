@@ -7,9 +7,9 @@ NeuralNetwork::NeuralNetwork(Parameters p)
   srand(time(0));
   addLayer(new Layer(p.input));
   for (int i = 0; i < p.hiddenLayerCount; ++i) {
-    addLayer(new Layer(std::vector<float>(p.hiddenLayerNeuronsCount, 0.0)));
+    addLayer(new Layer(std::vector<double>(p.hiddenLayerNeuronsCount, 0.0)));
   }
-  addLayer(new Layer(std::vector<float>(p.expectedOutput.size(), 0.0)));
+  addLayer(new Layer(std::vector<double>(p.expectedOutput.size(), 0.0)));
 }
 
 NeuralNetwork::~NeuralNetwork() {
@@ -45,7 +45,7 @@ void NeuralNetwork::connectLayers(Layer* l1, Layer* l2) {
   }
 }
 
-float NeuralNetwork::getInitialSynapseWeigth() {
+double NeuralNetwork::getInitialSynapseWeigth() {
   return ((double)rand() / (RAND_MAX));
 }
 
@@ -78,9 +78,9 @@ void NeuralNetwork::calculateError() {
   Layer* outputLayer = m_layers.back();
   m_error = 0;
   for (size_t i = 0; i < m_expectedOutput.size(); ++i) {
-    float target = m_expectedOutput[i];
-    float output = outputLayer->neurons[i]->data;
-    float diff = target - output;
+    double target = m_expectedOutput[i];
+    double output = outputLayer->neurons[i]->data;
+    double diff = target - output;
     m_error += 0.5 * (diff * diff);
   }
 }

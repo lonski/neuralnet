@@ -8,20 +8,20 @@ class ActivationFunctionsTest {
 public:
   /* Test */
   static void logisticFunctionTest() {
-    float x = 0.3775;
+    double x = 0.3775;
 
-    float y = ActivationFunctions::LOGISTIC(x);
+    double y = ActivationFunctions::LOGISTIC(x);
 
-    assertFloatEq(y, 0.5932);
+    assertDoubleEq(y, 0.5932);
   }
 
   /* Test */
   static void mulByTwoFunctionTest() {
-    float x = 1.0;
+    double x = 1.0;
 
-    float y = ActivationFunctions::MUL_BY_TWO(x);
+    double y = ActivationFunctions::MUL_BY_TWO(x);
 
-    assertFloatEq(y, 2);
+    assertDoubleEq(y, 2);
   }
 };
 
