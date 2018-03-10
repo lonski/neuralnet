@@ -7,6 +7,9 @@
 
 class NeuralNetworkWrapper : public NeuralNetwork {
 public:
+  NeuralNetworkWrapper() {}
+  NeuralNetworkWrapper(std::vector<std::vector<float>> topology)
+      : NeuralNetwork(topology) {}
   const std::vector<Synapse *> &getSynapses() { return m_synapses; }
 
   bool containsSynapse(Neuron *left, Neuron *right) {
@@ -21,14 +24,7 @@ public:
 class NeuralNetTest {
 public:
   static void shouldCreateSynapses() {
-    Layer *l1 = new Layer({new Neuron(0.1), new Neuron(0.2), new Neuron(0.3)});
-    Layer *l2 = new Layer({new Neuron(1.1), new Neuron(1.2)});
-    Layer *l3 = new Layer({new Neuron(2.1), new Neuron(2.2), new Neuron(2.3)});
-
-    NeuralNetworkWrapper nn;
-    nn.addLayer(l1);
-    nn.addLayer(l2);
-    nn.addLayer(l3);
+    NeuralNetworkWrapper nn({{0.1, 0.2, 0.3}, {1.1, 1.2}, {2.1, 2.2, 2.3}});
 
     size_t expectedSynapsesCount = 3 * 2 + // synapses between layers l1 <-> l2
                                    2 * 3;  // synapses between layers l2 <-> l3

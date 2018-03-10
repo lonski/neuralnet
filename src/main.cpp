@@ -2,8 +2,9 @@
 #include <iostream>
 
 int main() {
-  NeuralNetwork *nn = new NeuralNetwork();
-  nn->addLayer(new Layer({new Neuron(0.1), new Neuron(0.2)}));
-  nn->addLayer(new Layer({new Neuron(1.1), new Neuron(1.2), new Neuron(1.2)}));
-  nn->addLayer(new Layer({new Neuron(2.2)}));
+  NeuralNetwork *nn = new NeuralNetwork({
+      {0.1, 0.2},      // input layer
+      {1.1, 1.2, 1.3}, // hidden layer
+      {2.2}            // output layer
+  });
 }

@@ -3,6 +3,16 @@
 
 NeuralNetwork::NeuralNetwork() {}
 
+NeuralNetwork::NeuralNetwork(std::vector<std::vector<float>> topology) {
+  for (std::vector<float> layer_data : topology) {
+    Layer *layer = new Layer();
+    for (float neuron_data : layer_data) {
+      layer->neurons.push_back(new Neuron(neuron_data));
+    }
+    addLayer(layer);
+  }
+}
+
 NeuralNetwork::~NeuralNetwork() {
   for (Synapse *s : m_synapses) {
     delete s;

@@ -19,6 +19,7 @@ struct Synapse {
 
 struct Layer {
   Layer(std::vector<Neuron *> neurons) : neurons(neurons) {}
+  Layer() {}
   ~Layer() {
     for (Neuron *n : neurons) {
       delete n;
@@ -31,6 +32,7 @@ struct Layer {
 class NeuralNetwork {
 public:
   NeuralNetwork();
+  NeuralNetwork(std::vector<std::vector<float>> topology);
   ~NeuralNetwork();
 
   void addLayer(Layer *layer);
