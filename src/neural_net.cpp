@@ -33,6 +33,7 @@ void NeuralNetwork::learn(int iterationCount) {
   while (iterationCount--) {
     calculateNeuronValues();
     calculateError();
+    recalculateOutputLayerWeigths();
   }
 }
 
@@ -82,5 +83,25 @@ void NeuralNetwork::calculateError() {
     double output = outputLayer->neurons[i]->data;
     double diff = target - output;
     m_error += 0.5 * (diff * diff);
+  }
+}
+
+void NeuralNetwork::recalculateOutputLayerWeigths() {
+  Layer* outputLayer = m_layers[m_layers.size() - 1];
+  Layer* lastHiddenLayer = m_layers[m_layers.size() - 2];
+
+  for (size_t i = 0; i < outputLayer->neurons.size(); ++i) {
+    Neuron* right = outputLayer->neurons[i];
+    double out = right->data;
+    double target = m_expectedOutput[i];
+
+    for (Neuron* left : lastHiddenLayer->neurons) {
+      double dE_dOut = out - target;
+      double dOut_dNet = out * (1 - out);
+      double dNet_dW = left->data;
+      double dE_dW = dE_dOut * dOut_dNet * dNet_dW;
+      Synapse* synapse = findSynapse(left, right);
+      synapse->weight = synapse->weight - 0.5 * dE_dW;
+    }
   }
 }

@@ -62,6 +62,7 @@ class NeuralNetwork {
   void calculateNeuronValues();
   Synapse* findSynapse(Neuron* left, Neuron* right);
   void calculateError();
+  void recalculateOutputLayerWeigths();
 };
 
 #endif
