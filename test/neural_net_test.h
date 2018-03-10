@@ -81,11 +81,10 @@ class NeuralNetTest {
 
   /* Test */
   static void shouldCalculateNeuronValues() {
-    NeuralNetwork::Parameters p;
+    NeuralNetwork::Parameters p = createNuralNetworkParameters();
     p.input = {0.1, 0.2};
     p.expectedOutput = {2.1, 2.2};
-    p.hiddenLayerCount = 1;
-    p.hiddenLayerNeuronsCount = 2;
+    p.activationFn = [](float x) -> float { return x * 2; };
     NeuralNetworkWrapper nn(p);
 
     Layer* l1 = nn.getLayers()[0];
@@ -102,11 +101,11 @@ class NeuralNetTest {
     //// first neuron of hidden layer
     float w_11 = nn.findSynapsePub(l1->neurons[0], l2->neurons[0])->weight;
     float w_21 = nn.findSynapsePub(l1->neurons[1], l2->neurons[0])->weight;
-    assertFloatEq(l2->neurons[0]->data, n_1 * w_11 + n_2 * w_21);
+    assertFloatEq(l2->neurons[0]->data, (n_1 * w_11 + n_2 * w_21) * 2);
     //// second neuron of hidden layer
     float w_12 = nn.findSynapsePub(l1->neurons[0], l2->neurons[1])->weight;
     float w_22 = nn.findSynapsePub(l1->neurons[1], l2->neurons[1])->weight;
-    assertFloatEq(l2->neurons[1]->data, n_1 * w_12 + n_2 * w_22);
+    assertFloatEq(l2->neurons[1]->data, (n_1 * w_12 + n_2 * w_22) * 2);
 
     // assert output layer values
     n_1 = l2->neurons[0]->data;
@@ -114,11 +113,11 @@ class NeuralNetTest {
     //// first neuron of hidden layer
     w_11 = nn.findSynapsePub(l2->neurons[0], l3->neurons[0])->weight;
     w_21 = nn.findSynapsePub(l2->neurons[1], l3->neurons[0])->weight;
-    assertFloatEq(l3->neurons[0]->data, n_1 * w_11 + n_2 * w_21);
+    assertFloatEq(l3->neurons[0]->data, (n_1 * w_11 + n_2 * w_21) * 2);
     //// second neuron of hidden layer
     w_12 = nn.findSynapsePub(l2->neurons[0], l3->neurons[1])->weight;
     w_22 = nn.findSynapsePub(l2->neurons[1], l3->neurons[1])->weight;
-    assertFloatEq(l3->neurons[1]->data, n_1 * w_12 + n_2 * w_22);
+    assertFloatEq(l3->neurons[1]->data, (n_1 * w_12 + n_2 * w_22) * 2);
   }
 
  private:
@@ -128,6 +127,7 @@ class NeuralNetTest {
     p.expectedOutput = {2.1, 2.2, 2.3};
     p.hiddenLayerCount = 1;
     p.hiddenLayerNeuronsCount = 2;
+    p.activationFn = [](float x) { return x; };
     return p;
   }
   static bool areSame(float a, float b) { return fabs(a - b) < 0.0001; }

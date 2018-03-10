@@ -1,6 +1,7 @@
 #ifndef NEURALNET_H
 #define NEURALNET_H
 
+#include <functional>
 #include <vector>
 
 struct Neuron {
@@ -40,6 +41,7 @@ class NeuralNetwork {
     std::vector<float> expectedOutput;
     int hiddenLayerCount;
     int hiddenLayerNeuronsCount;
+    std::function<float(float)> activationFn;
   };
 
   NeuralNetwork(Parameters Parameters);
@@ -51,6 +53,7 @@ class NeuralNetwork {
   std::vector<float> m_expectedOutput;
   std::vector<Layer*> m_layers;
   std::vector<Synapse*> m_synapses;
+  std::function<float(float)> m_activationFn;
 
   void connectLayers(Layer* l1, Layer* l2);
   float getInitialSynapseWeigth();

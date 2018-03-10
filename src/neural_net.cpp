@@ -3,7 +3,7 @@
 #include <ctime>
 
 NeuralNetwork::NeuralNetwork(Parameters p)
-    : m_expectedOutput(p.expectedOutput) {
+    : m_expectedOutput(p.expectedOutput), m_activationFn(p.activationFn) {
   srand(time(0));
   addLayer(new Layer(p.input));
   for (int i = 0; i < p.hiddenLayerCount; ++i) {
@@ -53,6 +53,7 @@ void NeuralNetwork::calculateNeuronValues() {
           Synapse* synapse = findSynapse(left, right);
           right->data += left->data * synapse->weight;
         }
+        right->data = m_activationFn(right->data);
       }
     }
     previousLayer = currentLayer;
