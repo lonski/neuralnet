@@ -10,7 +10,6 @@ NeuralNetwork::NeuralNetwork(Parameters p)
     addLayer(new Layer(std::vector<float>(p.hiddenLayerNeuronsCount, 0.0)));
   }
   addLayer(new Layer(std::vector<float>(p.expectedOutput.size(), 0.0)));
-  calculateNeuronValues();
 }
 
 NeuralNetwork::~NeuralNetwork() {
@@ -27,6 +26,13 @@ void NeuralNetwork::addLayer(Layer* layer) {
   if (m_layers.size() > 1) {
     Layer* previousLayer = m_layers[m_layers.size() - 2];
     connectLayers(previousLayer, layer);
+  }
+}
+
+void NeuralNetwork::learn(int iterationCount) {
+  while (iterationCount--) {
+    calculateNeuronValues();
+    calculateError();
   }
 }
 
@@ -66,4 +72,15 @@ Synapse* NeuralNetwork::findSynapse(Neuron* left, Neuron* right) {
       return s;
   }
   return nullptr;
+}
+
+void NeuralNetwork::calculateError() {
+  Layer* outputLayer = m_layers.back();
+  m_error = 0;
+  for (size_t i = 0; i < m_expectedOutput.size(); ++i) {
+    float target = m_expectedOutput[i];
+    float output = outputLayer->neurons[i]->data;
+    float diff = target - output;
+    m_error += 0.5 * (diff * diff);
+  }
 }

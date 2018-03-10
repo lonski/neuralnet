@@ -48,17 +48,20 @@ class NeuralNetwork {
   ~NeuralNetwork();
 
   void addLayer(Layer* layer);
+  void learn(int iterationCount);
 
  protected:
   std::vector<float> m_expectedOutput;
   std::vector<Layer*> m_layers;
   std::vector<Synapse*> m_synapses;
   std::function<float(float)> m_activationFn;
+  float m_error;
 
   void connectLayers(Layer* l1, Layer* l2);
   float getInitialSynapseWeigth();
   void calculateNeuronValues();
   Synapse* findSynapse(Neuron* left, Neuron* right);
+  void calculateError();
 };
 
 #endif

@@ -25,13 +25,15 @@ class NeuralNetworkWrapper : public NeuralNetwork {
   }
 
   const std::vector<Layer*>& getLayers() { return m_layers; }
+
+  float getError() { return m_error; }
 };
 
 class NeuralNetTest {
  public:
   /* Test */
   static void shouldCreateSynapses() {
-    NeuralNetworkWrapper nn(createNuralNetworkParameters());
+    NeuralNetworkWrapper nn(createNeuralNetworkParameters());
 
     size_t expectedSynapsesCount = 3 * 2 +  // synapses between layers l1 <-> l2
                                    2 * 3;   // synapses between layers l2 <-> l3
@@ -40,7 +42,7 @@ class NeuralNetTest {
 
   /* Test */
   static void shouldCreateRequestedAmountOfLayers() {
-    NeuralNetwork::Parameters params = createNuralNetworkParameters();
+    NeuralNetwork::Parameters params = createNeuralNetworkParameters();
     params.hiddenLayerCount = 6;
 
     NeuralNetworkWrapper nn(params);
@@ -50,7 +52,7 @@ class NeuralNetTest {
 
   /* Test */
   static void shouldConnectLayers() {
-    NeuralNetworkWrapper nn(createNuralNetworkParameters());
+    NeuralNetworkWrapper nn(createNeuralNetworkParameters());
     Layer* l1 = nn.getLayers()[0];
     Layer* l2 = nn.getLayers()[1];
     Layer* l3 = nn.getLayers()[2];
@@ -69,7 +71,7 @@ class NeuralNetTest {
 
   /* Test */
   static void shouldInitializeSynapseWeight() {
-    NeuralNetworkWrapper nn(createNuralNetworkParameters());
+    NeuralNetworkWrapper nn(createNeuralNetworkParameters());
 
     float sum = 0;
     for (Synapse* s : nn.getSynapses()) {
@@ -82,15 +84,15 @@ class NeuralNetTest {
 
   /* Test */
   static void shouldCalculateNeuronValues() {
-    NeuralNetwork::Parameters p = createNuralNetworkParameters();
+    NeuralNetwork::Parameters p = createNeuralNetworkParameters();
     p.input = {0.1, 0.2};
     p.expectedOutput = {2.1, 2.2};
-    p.activationFn = ActivationFunctions::MUL_BY_TWO;
     NeuralNetworkWrapper nn(p);
-
     Layer* l1 = nn.getLayers()[0];
     Layer* l2 = nn.getLayers()[1];
     Layer* l3 = nn.getLayers()[2];
+
+    nn.learn(1);
 
     // assert input layer values
     assertFloatEq(l1->neurons[0]->data, 0.1);
@@ -121,14 +123,33 @@ class NeuralNetTest {
     assertFloatEq(l3->neurons[1]->data, (n_1 * w_12 + n_2 * w_22) * 2);
   }
 
+  /* Test */
+  static void shouldCalculateError() {
+    NeuralNetwork::Parameters p = createNeuralNetworkParameters();
+    p.input = {0.5, 0.1};
+    p.expectedOutput = {0.1, 0.2};
+    NeuralNetworkWrapper nn(p);
+    Layer* outputLayer = nn.getLayers()[2];
+
+    nn.learn(1);
+
+    float o1 = outputLayer->neurons[0]->data;
+    float diff1 = p.expectedOutput[0] - o1;
+    float o2 = outputLayer->neurons[1]->data;
+    float diff2 = p.expectedOutput[1] - o2;
+    float err = 0.5 * (diff1 * diff1) + 0.5 * (diff2 * diff2);
+
+    assertFloatEq(nn.getError(), err);
+  }
+
  private:
-  static NeuralNetwork::Parameters createNuralNetworkParameters() {
+  static NeuralNetwork::Parameters createNeuralNetworkParameters() {
     NeuralNetwork::Parameters p;
     p.input = {0.1, 0.2, 0.3};
     p.expectedOutput = {2.1, 2.2, 2.3};
     p.hiddenLayerCount = 1;
     p.hiddenLayerNeuronsCount = 2;
-    p.activationFn = [](float x) { return x; };
+    p.activationFn = ActivationFunctions::MUL_BY_TWO;
     return p;
   }
 };

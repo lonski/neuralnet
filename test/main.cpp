@@ -13,6 +13,7 @@ int main() {
   RUN_TEST(NeuralNetTest::shouldInitializeSynapseWeight());
   RUN_TEST(NeuralNetTest::shouldCreateRequestedAmountOfLayers());
   RUN_TEST(NeuralNetTest::shouldCalculateNeuronValues());
+  RUN_TEST(NeuralNetTest::shouldCalculateError());
   RUN_TEST(ActivationFunctionsTest::logisticFunctionTest());
   RUN_TEST(ActivationFunctionsTest::mulByTwoFunctionTest());
 }
