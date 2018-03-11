@@ -23,7 +23,7 @@ int main() {
     params.toleratedError = getNumber<double>("Enter tolerated error value");
     params.activationFn = nn::ActivationFunctions::LOGISTIC;
 
-    // print parameters
+    printParams(params);
 
     areParametersAccepted = getBool("Ok?");
     clear_cin();
