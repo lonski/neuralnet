@@ -38,6 +38,9 @@ class NeuralNetwork {
   void calculateError();
   void calculateNeuronValues();
   void recalculateOutputLayerWeigths();
+  void recalculateHiddenLayerWeigths();
+  void calculateNewWeight(Layer* lastHiddenLayer, Neuron* right);
+  void applyNewWeigths();
 
   Synapse* findSynapse(Neuron* left, Neuron* right);
 };

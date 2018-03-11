@@ -7,11 +7,12 @@ namespace nn {
 
 struct Synapse {
   Synapse(Neuron* left, Neuron* right, double weight)
-      : left(left), right(right), weight(weight) {}
+      : left(left), right(right), weight(weight), new_weight(0.0) {}
 
   Neuron* left;
   Neuron* right;
   double weight;
+  double new_weight;
 };
 
 }  // namespace nn
