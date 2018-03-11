@@ -42,7 +42,7 @@ class NeuralNetwork {
   void calculateNeuronValues();
   void recalculateOutputLayerWeigths();
   void recalculateHiddenLayerWeigths();
-  void calculateNewWeight(Layer* lastHiddenLayer, Neuron* right);
+  void calculateNewWeights(Layer* lastHiddenLayer, Neuron* right);
   void applyNewWeigths();
 
   Synapse* findSynapse(Neuron* left, Neuron* right);

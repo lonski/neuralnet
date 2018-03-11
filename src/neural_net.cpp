@@ -88,15 +88,6 @@ void NeuralNetwork::calculateError() {
   }
 }
 
-void NeuralNetwork::calculateNewWeight(Layer* leftLayer, Neuron* right) {
-  for (Neuron* left : leftLayer->neurons) {
-    double dNet_dW = left->data;
-    double dE_dW = right->dE_dOut * right->dOut_dNet * dNet_dW;
-    Synapse* synapse = findSynapse(left, right);
-    synapse->new_weight = synapse->weight - 0.5 * dE_dW;
-  }
-}
-
 void NeuralNetwork::applyNewWeigths() {
   for (Synapse* s : m_synapses)
     s->weight = s->new_weight;
@@ -108,19 +99,14 @@ void NeuralNetwork::recalculateOutputLayerWeigths() {
 
   for (size_t i = 0; i < outputLayer->neurons.size(); ++i) {
     Neuron* right = outputLayer->neurons[i];
-    double out = right->data;
-    double target = m_expectedOutput[i];
-
-    right->dE_dOut = out - target;
-    right->dOut_dNet = out * (1 - out);
-
-    calculateNewWeight(leftLayer, right);
+    right->dE_dOut = right->data - m_expectedOutput[i];
+    right->dOut_dNet = right->data * (1 - right->data);
+    calculateNewWeights(leftLayer, right);
   }
 }
 
 void NeuralNetwork::recalculateHiddenLayerWeigths() {
   size_t lastHiddenLayerIdx = m_layers.size() - 2;
-
   for (size_t layerIdx = lastHiddenLayerIdx; layerIdx > 1; --layerIdx) {
     Layer* currentLayer = m_layers[layerIdx];
     Layer* leftLayer = m_layers[layerIdx - 1];
@@ -128,13 +114,22 @@ void NeuralNetwork::recalculateHiddenLayerWeigths() {
 
     for (size_t i = 0; i < currentLayer->neurons.size(); ++i) {
       Neuron* current = currentLayer->neurons[i];
+      current->dOut_dNet = current->data * (1 - current->data);
       current->dE_dOut = 0.0;
       for (Neuron* right : rightLayer->neurons)
         current->dE_dOut += right->dE_dOut * right->dOut_dNet *
                             findSynapse(current, right)->weight;
-      current->dOut_dNet = current->data * (1 - current->data);
-      calculateNewWeight(leftLayer, current);
+      calculateNewWeights(leftLayer, current);
     }
+  }
+}
+
+void NeuralNetwork::calculateNewWeights(Layer* leftLayer, Neuron* right) {
+  for (Neuron* left : leftLayer->neurons) {
+    double dNet_dW = left->data;
+    double dE_dW = right->dE_dOut * right->dOut_dNet * dNet_dW;
+    Synapse* synapse = findSynapse(left, right);
+    synapse->new_weight = synapse->weight - 0.5 * dE_dW;
   }
 }
 
