@@ -3,6 +3,8 @@
 
 #include "neuron.h"
 
+namespace nn {
+
 struct Synapse {
   Synapse(Neuron* left, Neuron* right, double weight)
       : left(left), right(right), weight(weight) {}
@@ -12,4 +14,6 @@ struct Synapse {
   double weight;
 };
 
-#endif // SYNAPSE_H
+}  // namespace nn
+
+#endif  // SYNAPSE_H

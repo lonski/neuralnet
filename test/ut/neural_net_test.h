@@ -22,7 +22,7 @@ class NeuralNetTest {
 
   /* Test */
   static void shouldCreateRequestedAmountOfLayers() {
-    NeuralNetwork::Parameters params = createNeuralNetworkParameters();
+    nn::NeuralNetwork::Parameters params = createNeuralNetworkParameters();
     params.hiddenLayerCount = 6;
 
     NeuralNetworkWrapper nn(params);
@@ -33,9 +33,9 @@ class NeuralNetTest {
   /* Test */
   static void shouldConnectLayers() {
     NeuralNetworkWrapper nn(createNeuralNetworkParameters());
-    Layer* l1 = nn.getLayers()[0];
-    Layer* l2 = nn.getLayers()[1];
-    Layer* l3 = nn.getLayers()[2];
+    nn::Layer* l1 = nn.getLayers()[0];
+    nn::Layer* l2 = nn.getLayers()[1];
+    nn::Layer* l3 = nn.getLayers()[2];
 
     // l1-l2 synapses
     assert(nn.containsSynapse(l1->neurons[0], l2->neurons[0]));
@@ -54,7 +54,7 @@ class NeuralNetTest {
     NeuralNetworkWrapper nn(createNeuralNetworkParameters());
 
     double sum = 0;
-    for (Synapse* s : nn.getSynapses())
+    for (nn::Synapse* s : nn.getSynapses())
       sum += s->weight;
 
     assert(sum > 0);
@@ -62,13 +62,13 @@ class NeuralNetTest {
 
   /* Test */
   static void shouldCalculateNeuronValues() {
-    NeuralNetwork::Parameters p = createNeuralNetworkParameters();
+    nn::NeuralNetwork::Parameters p = createNeuralNetworkParameters();
     p.input = {0.1, 0.2};
     p.expectedOutput = {2.1, 2.2};
     NeuralNetworkWrapper nn(p);
-    Layer* l1 = nn.getLayers()[0];
-    Layer* l2 = nn.getLayers()[1];
-    Layer* l3 = nn.getLayers()[2];
+    nn::Layer* l1 = nn.getLayers()[0];
+    nn::Layer* l2 = nn.getLayers()[1];
+    nn::Layer* l3 = nn.getLayers()[2];
 
     nn.calculateNeuronValuesPub();
 
@@ -102,11 +102,11 @@ class NeuralNetTest {
 
   /* Test */
   static void shouldCalculateError() {
-    NeuralNetwork::Parameters p = createNeuralNetworkParameters();
+    nn::NeuralNetwork::Parameters p = createNeuralNetworkParameters();
     p.input = {0.5, 0.1};
     p.expectedOutput = {0.1, 0.2};
     NeuralNetworkWrapper nn(p);
-    Layer* outputLayer = nn.getLayers()[2];
+    nn::Layer* outputLayer = nn.getLayers()[2];
 
     nn.learn(1);
 
@@ -120,13 +120,13 @@ class NeuralNetTest {
   }
 
  private:
-  static NeuralNetwork::Parameters createNeuralNetworkParameters() {
-    NeuralNetwork::Parameters p;
+  static nn::NeuralNetwork::Parameters createNeuralNetworkParameters() {
+    nn::NeuralNetwork::Parameters p;
     p.input = {0.1, 0.2, 0.3};
     p.expectedOutput = {2.1, 2.2, 2.3};
     p.hiddenLayerCount = 1;
     p.hiddenLayerNeuronsCount = 2;
-    p.activationFn = ActivationFunctions::MUL_BY_TWO;
+    p.activationFn = nn::ActivationFunctions::MUL_BY_TWO;
     return p;
   }
 };

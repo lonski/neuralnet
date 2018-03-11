@@ -4,6 +4,8 @@
 #include <vector>
 #include "neuron.h"
 
+namespace nn {
+
 struct Layer {
   Layer(std::vector<double> neuron_values) {
     for (double neuron_data : neuron_values)
@@ -19,5 +21,7 @@ struct Layer {
 
   std::vector<Neuron*> neurons;
 };
+
+}  // namespace nn
 
 #endif  // LAYER_H

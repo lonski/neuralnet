@@ -13,7 +13,7 @@ class ActivationFunctionsTest {
   static void logisticFunctionTest() {
     double x = 0.3775;
 
-    double y = ActivationFunctions::LOGISTIC(x);
+    double y = nn::ActivationFunctions::LOGISTIC(x);
 
     assert(areSame(y, 0.5932));
   }
@@ -22,7 +22,7 @@ class ActivationFunctionsTest {
   static void mulByTwoFunctionTest() {
     double x = 1.0;
 
-    double y = ActivationFunctions::MUL_BY_TWO(x);
+    double y = nn::ActivationFunctions::MUL_BY_TWO(x);
 
     assert(areSame(y, 2));
   }

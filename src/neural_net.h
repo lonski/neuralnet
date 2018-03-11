@@ -7,6 +7,8 @@
 #include "neuron.h"
 #include "synapse.h"
 
+namespace nn {
+
 class NeuralNetwork {
  public:
   struct Parameters {
@@ -39,5 +41,7 @@ class NeuralNetwork {
 
   Synapse* findSynapse(Neuron* left, Neuron* right);
 };
+
+}  // namespace nn
 
 #endif

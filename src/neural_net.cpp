@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include <ctime>
 
+namespace nn {
+
 NeuralNetwork::NeuralNetwork(Parameters p)
     : m_expectedOutput(p.expectedOutput), m_activationFn(p.activationFn) {
   srand(time(0));
@@ -97,3 +99,5 @@ Synapse* NeuralNetwork::findSynapse(Neuron* left, Neuron* right) {
 
   return nullptr;
 }
+
+}  // namespace nn

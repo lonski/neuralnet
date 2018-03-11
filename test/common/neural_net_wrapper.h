@@ -5,24 +5,25 @@
 
 namespace test {
 
-class NeuralNetworkWrapper : public NeuralNetwork {
+class NeuralNetworkWrapper : public nn::NeuralNetwork {
  public:
-  NeuralNetworkWrapper(Parameters p) : NeuralNetwork(p) {}
-  const std::vector<Synapse*>& getSynapses() { return m_synapses; }
+  NeuralNetworkWrapper(nn::NeuralNetwork::Parameters p)
+      : nn::NeuralNetwork(p) {}
+  const std::vector<nn::Synapse*>& getSynapses() { return m_synapses; }
 
-  bool containsSynapse(Neuron* left, Neuron* right) {
-    for (Synapse* s : m_synapses) {
+  bool containsSynapse(nn::Neuron* left, nn::Neuron* right) {
+    for (nn::Synapse* s : m_synapses) {
       if (s->left == left && s->right == right)
         return true;
     }
     return false;
   }
 
-  Synapse* findSynapsePub(Neuron* left, Neuron* right) {
+  nn::Synapse* findSynapsePub(nn::Neuron* left, nn::Neuron* right) {
     return findSynapse(left, right);
   }
 
-  const std::vector<Layer*>& getLayers() { return m_layers; }
+  const std::vector<nn::Layer*>& getLayers() { return m_layers; }
 
   double getError() { return m_totalError; }
 
