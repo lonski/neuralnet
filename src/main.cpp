@@ -2,8 +2,8 @@
 #include <limits>
 #include <sstream>
 #include "activation_functions.h"
-#include "neural_net.h"
 #include "console_utils.h"
+#include "neural_net.h"
 
 using namespace std;
 
@@ -11,32 +11,25 @@ int main() {
   bool areParametersAccepted = false;
   nn::NeuralNetwork::Parameters params;
   std::cout << " :: Neuronomator 6000 ::" << std::endl;
-  
-  while(!areParametersAccepted) {
-    std::cout << "--------------------------------------------------" << std::endl;
-    params.input = getVector<double>("Podaj wartości neuronów w warstwie wejściowej");
-    params.expectedOutput = getVector<double>("Podaj spodziewane wartości neuronów w warstwie wyjściowej");
-    params.hiddenLayerCount = getNumber<int>("Podaj liczbe warstw ukrytych");
-    params.hiddenLayerNeuronsCount = getNumber<int>("Podaj liczbe neuronow w warstwach ukrytych");
-    params.toleratedError = getNumber<double>("Podaj wartosc bledu granicznego");
+
+  while (!areParametersAccepted) {
+    std::cout << "--------------------------------------------------\n";
+    params.input = getVector<double>("Enter neuron values of input layer");
+    params.expectedOutput =
+        getVector<double>("Enter expected neuron values of output layer");
+    params.hiddenLayerCount = getNumber<int>("Enter number of hidden layers");
+    params.hiddenLayerNeuronsCount =
+        getNumber<int>("Enter amount of neurons in hidden layers");
+    params.toleratedError = getNumber<double>("Enter tolerated error value");
     params.activationFn = nn::ActivationFunctions::LOGISTIC;
-        
-    //print parameters
-    //  -> możnaby narysowac siec w ascii :-D
-    //     IN  | H1 | H2 | OUT
-    //   ---------------------
-    //          |x|  |x|
-    //   |0.1|  |x|  |x|  |0.05|
-    //   |0.3|  |x|  |x|  |0.99|
-    //          |x|  |x|
-    
+
+    // print parameters
+
     areParametersAccepted = getBool("Ok?");
     clear_cin();
   }
-  
-  int e = getNumber<int>("Okresl maksymalna liczbe epok");
+
+  int e = getNumber<int>("Enter maximum number of iterations");
   nn::NeuralNetwork* nn = new nn::NeuralNetwork(params);
   nn->learn(e);
 }
-
-// moźnaby jeszcze dodać printowanie tych parametrów i zapytać usera czy 'ok', a jak nie to powtórzyć cały proces wczytywania

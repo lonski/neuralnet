@@ -1,6 +1,9 @@
 #ifndef INPUTUTILS_H
 #define INPUTUTILS_H
 
+#include <iostream>
+#include <vector>
+
 void clear_cin() {
   std::cin.clear();
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -21,7 +24,7 @@ template <typename T>
 std::vector<T> getVector(const std::string& msg) {
   std::string line;
 
-  std::cout << msg << " (podaj liczby oddzielone spacjami)\n>";
+  std::cout << msg << " (enter numbers separated with spaces)\n>";
   std::getline(std::cin, line);
 
   T number;
