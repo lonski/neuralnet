@@ -6,19 +6,16 @@ NeuralNetwork::NeuralNetwork(Parameters p)
     : m_expectedOutput(p.expectedOutput), m_activationFn(p.activationFn) {
   srand(time(0));
   addLayer(new Layer(p.input));
-  for (int i = 0; i < p.hiddenLayerCount; ++i) {
-    addLayer(new Layer(std::vector<double>(p.hiddenLayerNeuronsCount, 0.0)));
-  }
-  addLayer(new Layer(std::vector<double>(p.expectedOutput.size(), 0.0)));
+  for (int i = 0; i < p.hiddenLayerCount; ++i)
+    addLayer(new Layer(p.hiddenLayerNeuronsCount));
+  addLayer(new Layer(p.expectedOutput.size()));
 }
 
 NeuralNetwork::~NeuralNetwork() {
-  for (Synapse* s : m_synapses) {
+  for (Synapse* s : m_synapses)
     delete s;
-  }
-  for (Layer* l : m_layers) {
+  for (Layer* l : m_layers)
     delete l;
-  }
 }
 
 void NeuralNetwork::addLayer(Layer* layer) {
@@ -29,6 +26,16 @@ void NeuralNetwork::addLayer(Layer* layer) {
   }
 }
 
+void NeuralNetwork::connectLayers(Layer* l1, Layer* l2) {
+  for (Neuron* left : l1->neurons)
+    for (Neuron* right : l2->neurons)
+      m_synapses.push_back(new Synapse(left, right, getInitialSynapseWeigth()));
+}
+
+double NeuralNetwork::getInitialSynapseWeigth() {
+  return (double)rand() / RAND_MAX;
+}
+
 void NeuralNetwork::learn(int iterationCount) {
   while (iterationCount--) {
     calculateNeuronValues();
@@ -37,29 +44,14 @@ void NeuralNetwork::learn(int iterationCount) {
   }
 }
 
-void NeuralNetwork::connectLayers(Layer* l1, Layer* l2) {
-  for (Neuron* left : l1->neurons) {
-    for (Neuron* right : l2->neurons) {
-      Synapse* synapse = new Synapse(left, right, getInitialSynapseWeigth());
-      m_synapses.push_back(synapse);
-    }
-  }
-}
-
-double NeuralNetwork::getInitialSynapseWeigth() {
-  return ((double)rand() / (RAND_MAX));
-}
-
 void NeuralNetwork::calculateNeuronValues() {
   Layer* previousLayer = nullptr;
   for (Layer* currentLayer : m_layers) {
     if (previousLayer) {
       for (Neuron* right : currentLayer->neurons) {
         right->data = 0.0;
-        for (Neuron* left : previousLayer->neurons) {
-          Synapse* synapse = findSynapse(left, right);
-          right->data += left->data * synapse->weight;
-        }
+        for (Neuron* left : previousLayer->neurons)
+          right->data += left->data * findSynapse(left, right)->weight;
         right->data = m_activationFn(right->data);
       }
     }
@@ -67,22 +59,14 @@ void NeuralNetwork::calculateNeuronValues() {
   }
 }
 
-Synapse* NeuralNetwork::findSynapse(Neuron* left, Neuron* right) {
-  for (Synapse* s : m_synapses) {
-    if (s->left == left && s->right == right)
-      return s;
-  }
-  return nullptr;
-}
-
 void NeuralNetwork::calculateError() {
   Layer* outputLayer = m_layers.back();
-  m_error = 0;
+  m_totalError = 0;
   for (size_t i = 0; i < m_expectedOutput.size(); ++i) {
     double target = m_expectedOutput[i];
     double output = outputLayer->neurons[i]->data;
     double diff = target - output;
-    m_error += 0.5 * (diff * diff);
+    m_totalError += 0.5 * (diff * diff);
   }
 }
 
@@ -104,4 +88,12 @@ void NeuralNetwork::recalculateOutputLayerWeigths() {
       synapse->weight = synapse->weight - 0.5 * dE_dW;
     }
   }
+}
+
+Synapse* NeuralNetwork::findSynapse(Neuron* left, Neuron* right) {
+  for (Synapse* s : m_synapses)
+    if (s->left == left && s->right == right)
+      return s;
+
+  return nullptr;
 }

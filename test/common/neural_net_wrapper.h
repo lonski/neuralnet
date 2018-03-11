@@ -24,7 +24,7 @@ class NeuralNetworkWrapper : public NeuralNetwork {
 
   const std::vector<Layer*>& getLayers() { return m_layers; }
 
-  double getError() { return m_error; }
+  double getError() { return m_totalError; }
 
   void calculateNeuronValuesPub() { calculateNeuronValues(); }
 };

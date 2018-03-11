@@ -54,10 +54,8 @@ class NeuralNetTest {
     NeuralNetworkWrapper nn(createNeuralNetworkParameters());
 
     double sum = 0;
-    for (Synapse* s : nn.getSynapses()) {
+    for (Synapse* s : nn.getSynapses())
       sum += s->weight;
-      // std::cout << s->weight << " ";
-    }
 
     assert(sum > 0);
   }
