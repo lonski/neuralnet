@@ -14,6 +14,7 @@ int main() {
   RUN_TEST(test::NeuralNetTest::shouldCreateRequestedAmountOfLayers());
   RUN_TEST(test::NeuralNetTest::shouldCalculateNeuronValues());
   RUN_TEST(test::NeuralNetTest::shouldCalculateError());
+  RUN_TEST(test::NeuralNetTest::shouldImproveError());
   RUN_TEST(test::ActivationFunctionsTest::logisticFunctionTest());
   RUN_TEST(test::ActivationFunctionsTest::mulByTwoFunctionTest());
 }

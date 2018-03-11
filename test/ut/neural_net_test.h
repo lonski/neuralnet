@@ -119,6 +119,25 @@ class NeuralNetTest {
     assert(areSame(nn.getError(), err));
   }
 
+  /* Test */
+  static void shouldImproveError() {
+    nn::NeuralNetwork::Parameters params;
+    params.input = {0.05, 0.1};
+    params.expectedOutput = {0.01, 0.99};
+    params.hiddenLayerCount = 1;
+    params.hiddenLayerNeuronsCount = 2;
+    params.toleratedError = 0.001;
+    params.activationFn = nn::ActivationFunctions::LOGISTIC;
+    nn::NeuralNetwork* nn = new nn::NeuralNetwork(params);
+
+    nn->learn(1);
+    double initError = nn->getTotalError();
+    nn->learn(100);
+    double outError = nn->getTotalError();
+
+    assert(outError < initError);
+  }
+
  private:
   static nn::NeuralNetwork::Parameters createNeuralNetworkParameters() {
     nn::NeuralNetwork::Parameters p;

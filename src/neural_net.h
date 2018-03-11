@@ -17,12 +17,14 @@ class NeuralNetwork {
     int hiddenLayerCount;
     int hiddenLayerNeuronsCount;
     std::function<double(double)> activationFn;
+    double toleratedError;
   };
 
   NeuralNetwork(Parameters Parameters);
   ~NeuralNetwork();
 
   void learn(int iterationCount);
+  double getTotalError() const;
 
  protected:
   std::vector<Layer*> m_layers;
@@ -30,6 +32,7 @@ class NeuralNetwork {
   std::vector<double> m_expectedOutput;
   std::function<double(double)> m_activationFn;
   double m_totalError;
+  double m_toleratedError;
 
   void addLayer(Layer* layer);
   void connectLayers(Layer* l1, Layer* l2);

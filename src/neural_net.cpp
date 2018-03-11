@@ -1,11 +1,14 @@
 #include "neural_net.h"
 #include <cstdlib>
 #include <ctime>
+#include <iostream>
 
 namespace nn {
 
 NeuralNetwork::NeuralNetwork(Parameters p)
-    : m_expectedOutput(p.expectedOutput), m_activationFn(p.activationFn) {
+    : m_expectedOutput(p.expectedOutput),
+      m_activationFn(p.activationFn),
+      m_toleratedError(p.toleratedError) {
   srand(time(0));
   addLayer(new Layer(p.input));
   for (int i = 0; i < p.hiddenLayerCount; ++i)
@@ -39,13 +42,24 @@ double NeuralNetwork::getInitialSynapseWeigth() {
 }
 
 void NeuralNetwork::learn(int iterationCount) {
-  while (iterationCount--) {
+  for (int i = 0; i < iterationCount; ++i) {
+    std::cout << "Iteration " << i + 1 << "/" << iterationCount;
     calculateNeuronValues();
     calculateError();
+    std::cout << " : error = " << m_totalError << std::endl;
+    if (m_totalError < m_toleratedError) {
+      std::cout << "Total error within limit: " << m_totalError << " < "
+                << m_toleratedError << std::endl;
+      break;
+    }
     recalculateOutputLayerWeigths();
     recalculateHiddenLayerWeigths();
     applyNewWeigths();
   }
+}
+
+double NeuralNetwork::getTotalError() const {
+  return m_totalError;
 }
 
 void NeuralNetwork::calculateNeuronValues() {
@@ -106,6 +120,7 @@ void NeuralNetwork::recalculateOutputLayerWeigths() {
 
 void NeuralNetwork::recalculateHiddenLayerWeigths() {
   size_t lastHiddenLayerIdx = m_layers.size() - 2;
+
   for (size_t layerIdx = lastHiddenLayerIdx; layerIdx > 1; --layerIdx) {
     Layer* currentLayer = m_layers[layerIdx];
     Layer* leftLayer = m_layers[layerIdx - 1];
