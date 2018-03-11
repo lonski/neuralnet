@@ -1,7 +1,7 @@
 #undef NDEBUG
 #include <iostream>
-#include "activation_functions_test.h"
-#include "neural_net_test.h"
+#include "ut/activation_functions_test.h"
+#include "ut/neural_net_test.h"
 
 #define RUN_TEST(FUN)                           \
   std::cout << "Running " << #FUN << std::endl; \

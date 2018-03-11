@@ -2,8 +2,8 @@
 #define ACTIVATION_FUNCTIONS_TEST_H
 
 #include <cassert>
-#include "../src/activation_functions.h"
-#include "util.h"
+#include "../../src/activation_functions.h"
+#include "../common/util.h"
 
 namespace test {
 

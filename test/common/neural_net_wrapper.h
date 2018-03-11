@@ -1,7 +1,7 @@
 #ifndef NEURAL_NET_WRAPPER_H
 #define NEURAL_NET_WRAPPER_H
 
-#include "../src/neural_net.h"
+#include "../../src/neural_net.h"
 
 namespace test {
 

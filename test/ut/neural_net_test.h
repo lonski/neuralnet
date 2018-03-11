@@ -3,9 +3,9 @@
 
 #include <cassert>
 #include <iostream>
-#include "../src/activation_functions.h"
-#include "neural_net_wrapper.h"
-#include "util.h"
+#include "../../src/activation_functions.h"
+#include "../common/neural_net_wrapper.h"
+#include "../common/util.h"
 
 namespace test {
 
