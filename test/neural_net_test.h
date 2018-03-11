@@ -27,6 +27,8 @@ class NeuralNetworkWrapper : public NeuralNetwork {
   const std::vector<Layer*>& getLayers() { return m_layers; }
 
   double getError() { return m_error; }
+
+  void calculateNeuronValuesPub() { calculateNeuronValues(); }
 };
 
 class NeuralNetTest {
@@ -84,45 +86,43 @@ class NeuralNetTest {
 
   /* Test */
   static void shouldCalculateNeuronValues() {
-    //    NeuralNetwork::Parameters p = createNeuralNetworkParameters();
-    //    p.input = {0.1, 0.2};
-    //    p.expectedOutput = {2.1, 2.2};
-    //    NeuralNetworkWrapper nn(p);
-    //    Layer* l1 = nn.getLayers()[0];
-    //    Layer* l2 = nn.getLayers()[1];
-    //    Layer* l3 = nn.getLayers()[2];
+    NeuralNetwork::Parameters p = createNeuralNetworkParameters();
+    p.input = {0.1, 0.2};
+    p.expectedOutput = {2.1, 2.2};
+    NeuralNetworkWrapper nn(p);
+    Layer* l1 = nn.getLayers()[0];
+    Layer* l2 = nn.getLayers()[1];
+    Layer* l3 = nn.getLayers()[2];
 
-    //    nn.learn(1);
+    nn.calculateNeuronValuesPub();
 
-    //    // assert input layer values
-    //    assertDoubleEq(l1->neurons[0]->data, 0.1);
-    //    assertDoubleEq(l1->neurons[1]->data, 0.2);
+    // assert input layer values
+    assertDoubleEq(l1->neurons[0]->data, 0.1);
+    assertDoubleEq(l1->neurons[1]->data, 0.2);
 
-    //    // assert hidden layer values
-    //    double n_1 = l1->neurons[0]->data;
-    //    double n_2 = l1->neurons[1]->data;
-    //    //// first neuron of hidden layer
-    //    double w_11 = nn.findSynapsePub(l1->neurons[0],
-    //    l2->neurons[0])->weight; double w_21 =
-    //    nn.findSynapsePub(l1->neurons[1], l2->neurons[0])->weight;
-    //    assertDoubleEq(l2->neurons[0]->data, (n_1 * w_11 + n_2 * w_21) * 2);
-    //    //// second neuron of hidden layer
-    //    double w_12 = nn.findSynapsePub(l1->neurons[0],
-    //    l2->neurons[1])->weight; double w_22 =
-    //    nn.findSynapsePub(l1->neurons[1], l2->neurons[1])->weight;
-    //    assertDoubleEq(l2->neurons[1]->data, (n_1 * w_12 + n_2 * w_22) * 2);
+    // assert hidden layer values
+    double n_1 = l1->neurons[0]->data;
+    double n_2 = l1->neurons[1]->data;
+    //// first neuron of hidden layer
+    double w_11 = nn.findSynapsePub(l1->neurons[0], l2->neurons[0])->weight;
+    double w_21 = nn.findSynapsePub(l1->neurons[1], l2->neurons[0])->weight;
+    assertDoubleEq(l2->neurons[0]->data, (n_1 * w_11 + n_2 * w_21) * 2);
+    //// second neuron of hidden layer
+    double w_12 = nn.findSynapsePub(l1->neurons[0], l2->neurons[1])->weight;
+    double w_22 = nn.findSynapsePub(l1->neurons[1], l2->neurons[1])->weight;
+    assertDoubleEq(l2->neurons[1]->data, (n_1 * w_12 + n_2 * w_22) * 2);
 
-    //    // assert output layer values
-    //    n_1 = l2->neurons[0]->data;
-    //    n_2 = l2->neurons[1]->data;
-    //    //// first neuron of hidden layer
-    //    w_11 = nn.findSynapsePub(l2->neurons[0], l3->neurons[0])->weight;
-    //    w_21 = nn.findSynapsePub(l2->neurons[1], l3->neurons[0])->weight;
-    //    assertDoubleEq(l3->neurons[0]->data, (n_1 * w_11 + n_2 * w_21) * 2);
-    //    //// second neuron of hidden layer
-    //    w_12 = nn.findSynapsePub(l2->neurons[0], l3->neurons[1])->weight;
-    //    w_22 = nn.findSynapsePub(l2->neurons[1], l3->neurons[1])->weight;
-    //    assertDoubleEq(l3->neurons[1]->data, (n_1 * w_12 + n_2 * w_22) * 2);
+    // assert output layer values
+    n_1 = l2->neurons[0]->data;
+    n_2 = l2->neurons[1]->data;
+    //// first neuron of hidden layer
+    w_11 = nn.findSynapsePub(l2->neurons[0], l3->neurons[0])->weight;
+    w_21 = nn.findSynapsePub(l2->neurons[1], l3->neurons[0])->weight;
+    assertDoubleEq(l3->neurons[0]->data, (n_1 * w_11 + n_2 * w_21) * 2);
+    //// second neuron of hidden layer
+    w_12 = nn.findSynapsePub(l2->neurons[0], l3->neurons[1])->weight;
+    w_22 = nn.findSynapsePub(l2->neurons[1], l3->neurons[1])->weight;
+    assertDoubleEq(l3->neurons[1]->data, (n_1 * w_12 + n_2 * w_22) * 2);
   }
 
   /* Test */
