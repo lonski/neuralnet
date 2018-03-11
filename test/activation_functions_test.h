@@ -1,18 +1,21 @@
 #ifndef ACTIVATION_FUNCTIONS_TEST_H
 #define ACTIVATION_FUNCTIONS_TEST_H
 
-#include "util.h"
+#include <cassert>
 #include "../src/activation_functions.h"
+#include "util.h"
+
+namespace test {
 
 class ActivationFunctionsTest {
-public:
+ public:
   /* Test */
   static void logisticFunctionTest() {
     double x = 0.3775;
 
     double y = ActivationFunctions::LOGISTIC(x);
 
-    assertDoubleEq(y, 0.5932);
+    assert(areSame(y, 0.5932));
   }
 
   /* Test */
@@ -21,8 +24,10 @@ public:
 
     double y = ActivationFunctions::MUL_BY_TWO(x);
 
-    assertDoubleEq(y, 2);
+    assert(areSame(y, 2));
   }
 };
 
-#endif // ACTIVATION_FUNCTIONS_TEST_H
+}  // namespace test
+
+#endif  // ACTIVATION_FUNCTIONS_TEST_H

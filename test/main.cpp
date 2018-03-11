@@ -8,12 +8,12 @@
   FUN;
 
 int main() {
-  RUN_TEST(NeuralNetTest::shouldCreateSynapses());
-  RUN_TEST(NeuralNetTest::shouldConnectLayers());
-  RUN_TEST(NeuralNetTest::shouldInitializeSynapseWeight());
-  RUN_TEST(NeuralNetTest::shouldCreateRequestedAmountOfLayers());
-  RUN_TEST(NeuralNetTest::shouldCalculateNeuronValues());
-  RUN_TEST(NeuralNetTest::shouldCalculateError());
-  RUN_TEST(ActivationFunctionsTest::logisticFunctionTest());
-  RUN_TEST(ActivationFunctionsTest::mulByTwoFunctionTest());
+  RUN_TEST(test::NeuralNetTest::shouldCreateSynapses());
+  RUN_TEST(test::NeuralNetTest::shouldConnectLayers());
+  RUN_TEST(test::NeuralNetTest::shouldInitializeSynapseWeight());
+  RUN_TEST(test::NeuralNetTest::shouldCreateRequestedAmountOfLayers());
+  RUN_TEST(test::NeuralNetTest::shouldCalculateNeuronValues());
+  RUN_TEST(test::NeuralNetTest::shouldCalculateError());
+  RUN_TEST(test::ActivationFunctionsTest::logisticFunctionTest());
+  RUN_TEST(test::ActivationFunctionsTest::mulByTwoFunctionTest());
 }
