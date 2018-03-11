@@ -1,6 +1,9 @@
 set(SOURCE_FILES
     activation_functions.h
     neural_net.h
+    neuron.h
+    synapse.h
+    layer.h
     neural_net.cpp
     main.cpp
 )
