@@ -43,19 +43,21 @@ double NeuralNetwork::getInitialSynapseWeigth() {
 
 void NeuralNetwork::learn(int iterationCount) {
   for (int i = 0; i < iterationCount; ++i) {
-    std::cout << "Iteration " << i + 1 << "/" << iterationCount;
     calculateNeuronValues();
     calculateError();
-    std::cout << " : error = " << m_totalError << std::endl;
+    std::cout << "\rIteration " << i + 1 << "/" << iterationCount
+              << " : error = " << m_totalError;
     if (m_totalError < m_toleratedError) {
-      std::cout << "Total error within limit: " << m_totalError << " < "
-                << m_toleratedError << std::endl;
+      std::cout << std::endl
+                << "Total error within limit: " << m_totalError << " < "
+                << m_toleratedError;
       break;
     }
     recalculateOutputLayerWeigths();
     recalculateHiddenLayerWeigths();
     applyNewWeigths();
   }
+  std::cout << std::endl;
 }
 
 double NeuralNetwork::getTotalError() const {

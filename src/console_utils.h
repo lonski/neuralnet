@@ -1,9 +1,9 @@
 #ifndef INPUTUTILS_H
 #define INPUTUTILS_H
 
+#include <iomanip>
 #include <iostream>
 #include <vector>
-#include <iomanip>
 #include "neural_net.h"
 
 void clear_cin() {
@@ -39,10 +39,28 @@ std::vector<T> getVector(const std::string& msg) {
 }
 
 bool getBool(const std::string& msg) {
-  std::cout << msg << " [t/n]\n>";
+  std::cout << msg << " [y/n]\n>";
   std::string s;
   std::cin >> s;
-  return s == "t";
+  return s == "y";
+}
+
+void printLine(const std::string& message) {
+  std::cout << "-----" << std::setw(75) << std::setfill('-') << std::left
+            << message << std::endl;
+}
+
+nn::NeuralNetwork::Parameters promptForParameters() {
+  nn::NeuralNetwork::Parameters params;
+  params.input = getVector<double>("Enter neuron values of input layer");
+  params.expectedOutput =
+      getVector<double>("Enter expected neuron values of output layer");
+  params.hiddenLayerCount = getNumber<int>("Enter number of hidden layers");
+  params.hiddenLayerNeuronsCount =
+      getNumber<int>("Enter amount of neurons in hidden layers");
+  params.activationFn = nn::ActivationFunctions::LOGISTIC;
+
+  return params;
 }
 
 void printParams(nn::NeuralNetwork::Parameters params) {
@@ -67,7 +85,7 @@ void printParams(nn::NeuralNetwork::Parameters params) {
       std::cout << " Input    ";
     } else {
       if (i >= iRowSkip && (i - iRowSkip) < params.input.size()) {
-        std::cout << "|" << std::setw(6) << std::left << std::setfill('0')
+        std::cout << "|" << std::setw(6) << std::left << std::setfill(' ')
                   << params.input[i - iRowSkip] << "|  ";
       } else {
         std::cout << "          ";
@@ -77,7 +95,8 @@ void printParams(nn::NeuralNetwork::Parameters params) {
     // print hidden layers
     if (i == 0) {
       for (int h = 0; h < params.hiddenLayerCount; ++h)
-        std::cout << "H" << std::setw(2) << std::setfill('0') << h << "  ";
+        std::cout << "H" << std::setw(2) << std::right << std::setfill('0') << h
+                  << "  ";
     } else {
       std::string hlSymbol =
           (i >= hRowSkip &&
@@ -93,7 +112,7 @@ void printParams(nn::NeuralNetwork::Parameters params) {
       std::cout << " Output ";
     } else {
       if (i >= oRowSkip && (i - oRowSkip) < params.expectedOutput.size()) {
-        std::cout << "|" << std::setw(6) << std::left << std::setfill('0')
+        std::cout << "|" << std::setw(6) << std::left << std::setfill(' ')
                   << params.expectedOutput[i - oRowSkip] << "|";
       } else {
         std::cout << "        ";
