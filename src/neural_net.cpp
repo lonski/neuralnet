@@ -1,7 +1,9 @@
 #include "neural_net.h"
 #include <cstdlib>
 #include <ctime>
+#include <iomanip>
 #include <iostream>
+#include <limits>
 
 namespace nn {
 
@@ -64,6 +66,26 @@ double NeuralNetwork::getTotalError() const {
   return m_totalError;
 }
 
+void NeuralNetwork::printWeights(std::ostream& stream) {
+  const int precision = std::numeric_limits<double>::max_digits10;
+  for (size_t lIdx = 0; lIdx < m_layers.size() - 1; ++lIdx) {
+    Layer* layer = m_layers[lIdx];
+    stream << "L" << lIdx + 1 << "-L" << lIdx + 2 << std::endl;
+    for (size_t nIdx = 0; nIdx < layer->neurons.size(); ++nIdx) {
+      Neuron* left = layer->neurons[nIdx];
+      stream << "\tN" << nIdx << ":";
+      Layer* rightLayer = m_layers[lIdx + 1];
+      for (Neuron* right : rightLayer->neurons) {
+        Synapse* synapse = findSynapse(left, right);
+        stream << " " << std::setprecision(precision)
+               << std::setw(precision + 4) << std::setfill(' ') << std::right
+               << std::fixed << synapse->weight;
+      }
+      stream << std::endl;
+    }
+  }
+}
+
 void NeuralNetwork::calculateNeuronValues() {
   Layer* previousLayer = nullptr;
   for (Layer* currentLayer : m_layers) {
@@ -109,7 +131,7 @@ void NeuralNetwork::recalculateOutputLayerWeigths() {
 
 void NeuralNetwork::recalculateHiddenLayerWeigths() {
   size_t lastHiddenLayerIdx = m_layers.size() - 2;
-  for (size_t layerIdx = lastHiddenLayerIdx; layerIdx > 1; --layerIdx) {
+  for (size_t layerIdx = lastHiddenLayerIdx; layerIdx > 0; --layerIdx) {
     Layer* currentLayer = m_layers[layerIdx];
     Layer* leftLayer = m_layers[layerIdx - 1];
     Layer* rightLayer = m_layers[layerIdx + 1];

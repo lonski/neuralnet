@@ -46,5 +46,9 @@ int main() {
   int e = getNumber<int>("Enter maximum number of iterations");
   params.toleratedError = getNumber<double>("Enter tolerated error value");
   nn::NeuralNetwork* nn = new nn::NeuralNetwork(params);
+
   nn->learn(e);
+
+  printLine("Calculated weights");
+  nn->printWeights(std::cout);
 }

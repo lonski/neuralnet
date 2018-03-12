@@ -70,12 +70,14 @@ void printParams(nn::NeuralNetwork::Parameters params) {
                std::max(params.input.size(), params.expectedOutput.size())) +
       1;
 
+  std::cout << "Rows " << rows;
+
   // calculate row skip for each layer type, to put them in the middle
-  size_t iRowSkip = std::max((size_t)0, (rows - params.input.size()) / 2);
+  size_t iRowSkip = std::max((size_t)0, (rows - params.input.size()) / 2) + 1;
   size_t hRowSkip =
-      std::max((size_t)0, (rows - params.hiddenLayerNeuronsCount) / 2);
+      std::max((size_t)0, (rows - params.hiddenLayerNeuronsCount) / 2) + 1;
   size_t oRowSkip =
-      std::max((size_t)0, (rows - params.expectedOutput.size()) / 2);
+      std::max((size_t)0, (rows - params.expectedOutput.size()) / 2) + 1;
 
   std::cout << std::endl;
   // print each row

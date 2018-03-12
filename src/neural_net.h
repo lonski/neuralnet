@@ -25,6 +25,7 @@ class NeuralNetwork {
 
   void learn(int iterationCount);
   double getTotalError() const;
+  void printWeights(std::ostream& stream);
 
  protected:
   std::vector<Layer*> m_layers;
