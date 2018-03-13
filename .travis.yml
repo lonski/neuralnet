@@ -1,10 +1,10 @@
-sudo: required
+os: linux
+dist: trusty
+language: cpp
+compiler: gcc
 
-language:
-  - cpp
-
-compiler:
-  - gcc
+install:
+  - export CXX="g++-6" CC="gcc-6"
 
 addons:
   apt:
@@ -16,12 +16,10 @@ addons:
       - cmake
 
 before_script:
-  - export CC=gcc-6
-  - export CXX=g++-6
-  - gcc -v && g++ -v && cmake --version
+  - mkdir build
+  - cd build
+  - cmake ..
 
 script:
-  - mkdir build
-  - cmake ..
   - make
   - ./neuralnet_test
