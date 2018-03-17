@@ -1,6 +1,6 @@
 # Neuronomator
 
-[![Build Status](https://travis-ci.org/lonski/neuronomator.svg?branch=master)](https://travis-ci.org/lonski/neuronomator)
+[![Build Status](https://travis-ci.org/lonski/neuronomator-cpp.svg?branch=master)](https://travis-ci.org/lonski/neuronomator-cpp)
 
 Neural network backpropagation alghoritm implementation.
 
